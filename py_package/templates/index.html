@@ -1,0 +1,51 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fire Monitoring</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Fire Monitoring</h1>
+    <div id="smoke-image"></div>
+    <div id="smoke-quantity"></div>
+    <div id="timestamp"></div>
+    <script>
+        var img_update_interval = 5000; // 5 seconds
+        var qty_update_interval = 1000; // 1 second
+        var last_updated = 0;
+        var data = {
+            "img_url": "",
+            "smoke_quantity": "",
+            "timestamp": ""
+        };
+
+        // Continuously update the smoke quantity every 1 second
+        setInterval(function() {
+            $("#smoke-quantity").text("Smoke Quantity:  " + data.smoke_quantity);
+	    $("#timestamp").text("Time:  " + data.timestamp);
+        }, qty_update_interval);
+
+        // Continuously update the webpage with the latest data
+        setInterval(function() {
+            var now = Date.now();
+            // Update the image every 5 seconds
+            if (now - last_updated >= img_update_interval) {
+                last_updated = now;
+                $.getJSON("/data", function(new_data) {
+                    data.img_url = new_data.img_url;
+                    data.timestamp = new_data.timestamp;
+                    $("#smoke-image").html("<img src='" + data.img_url + "' width='750'>");
+                });
+            }
+            // Update the smoke quantity every 1 second
+            else {
+                $.getJSON("/data", function(new_data) {
+                    data.smoke_quantity = new_data.smoke_quantity;
+		    data.timestamp = new_data.timestamp;
+                });
+            }
+        }, qty_update_interval);
+    </script>
+</body>
+</html>
