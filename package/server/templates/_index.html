@@ -1,0 +1,24 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Fire Monitoring</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Fire Monitoring</h1>
+    <div id="smoke-image"></div>
+    <div id="smoke-quantity"></div>
+    <div id="timestamp"></div>
+    <script>
+        // Continuously update the webpage with the latest data
+        setInterval(function() {
+            $.getJSON("/data", function(data) {
+                $("#smoke-image").html("<img src='" + data.smoke_image_path + "' width='750'>");
+                $("#smoke-quantity").text("Smoke Quantity: " + data.smoke_quantity);
+                $("#timestamp").text("Times: " + data.timestamp);
+            });
+        }, 5000);
+    </script>
+</body>
+</html>
