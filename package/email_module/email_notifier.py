@@ -81,4 +81,6 @@ class EmailNotifier(object):
 
 if __name__ == '__main__':
     email_handler = EmailNotifier()
-    email_handler.send_emails()
+    email_handler.send_emails(smoke_qty=50, 
+                              img_file="image_1682321440.9615016.png")
+    print("Email Send !")

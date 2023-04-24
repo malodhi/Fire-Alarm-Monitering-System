@@ -9,12 +9,14 @@ class McuThread(threading.Thread, McuInterface):
 		self.name = name
 		self.smoke_qty = -1
 		self.running = False
+		self.daemon = True
 		self.stop_event = threading.Event()
 		
 	def run(self):
 		self.running = True
 		print ("\n%s has started execution " %self.name)
 		while True:
+			print("Mcu Thread Executing")
 			val = self.get_instant_data()
 			if val != -1:
 				self.smoke_qty = val

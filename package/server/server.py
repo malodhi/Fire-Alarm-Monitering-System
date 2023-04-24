@@ -11,33 +11,39 @@ mcuThread = McuThread()
 cameraThread = CameraThread()
 email_handler = EmailNotifier()
 
+mcuThread.start()
+cameraThread.start()
+
 app = Flask(__name__)
 
-imgDir = '/static/images/'
+imgDir = 'static/images/'
 smoke_threshold = 30
+
 
 # Set up a basic HTML template for your webpage
 @app.route("/")
 def index():
     return render_template("index.html")
     
+    
 # Route to serve the live fire monitoring data as a JSON response
 @app.route("/data")
 def data():
     print("Smoke Qty:   ", mcuThread.smoke_qty)
     data = {
-        "img_url": imgDir + cameraThread.retrieve_latest_img(),
+        "img_url": imgDir + cameraThread.retrieve_latest_img(name_only=True),
         "smoke_quantity": mcuThread.smoke_qty,
-        "timestamp": datetime.now().strftime("%S:%M:%H") #("%Y-%m-%d %H:%M:%S")
+        "timestamp": datetime.now().strftime("%H:%M:%S / %d-%m-%Y") #("%Y-%m-%d %H:%M:%S")
         }
     return jsonify(data)
 
 
-if __name__ == "__main__":
+def wasted_time():
     #log = logging.getLogger('werkzeug')
     #log.setLevel(logging.ERROR)
     server_up = False
     mcuThread.run()
+    cameraThread.run()
     print("Hello World ")
     while mcuThread.running:
         print("Smoke Quantity:  ", str(mcuThread.smoke_qty))
@@ -52,5 +58,11 @@ if __name__ == "__main__":
 
         elif (smoke_threshold > mcuThread.smoke_qty) and (cameraThread.running):
             cameraThread.stop()
+
+
+
+if __name__ == "__main__":
+    app.run(debug=False, host='0.0.0.0')
+
             
         

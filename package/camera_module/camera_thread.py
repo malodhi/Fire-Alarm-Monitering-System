@@ -8,12 +8,14 @@ class CameraThread(threading.Thread, CameraInterface):
 		CameraInterface.__init__(self, imgDir, buffer_size)
 		self.name = name
 		self.running = False
+		self.daemon = True
 		self.stop_event = threading.Event()
 		
 	def run(self):
 		print ("\n%s has started execution " %self.name)
 		self.running = True
 		while True:	
+			print("Camer Thread executing ...")
 			self.capture_image()
 			time.sleep(3)
 			self.remove_older_images()
