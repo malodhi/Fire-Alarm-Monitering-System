@@ -32,11 +32,10 @@ def data():
     
     smoke_qty = smoke_sensor.get_instant_data()
     img_url = camera_sensor.retrieve_latest_img()
-    #print("Smoke Quantity   =  " , str(smoke_qty))
 
     data = {
         "img_url": img_url,
-        "smoke_quantity": smoke_sensor.get_instant_data(),
+        "smoke_quantity": smoke_qty,
         "timestamp": datetime.now().strftime("%H:%M:%S  /  %d-%m-%Y")
         }
     return jsonify(data)
