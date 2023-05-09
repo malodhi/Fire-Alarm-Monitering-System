@@ -16,9 +16,10 @@ class McuThread(threading.Thread, McuInterface):
 		self.running = True
 		print ("\n%s has started execution " %self.name)
 		while True:
-			print("Mcu Thread Executing")
+			#print("Mcu Thread Executing")
 			val = self.get_instant_data()
 			if val != -1:
+				print(f"Smoke Quantity ====>  {str(val)}")
 				self.smoke_qty = val
 			time.sleep(1)
 		print ("\n%s has finished execution " %self.name)

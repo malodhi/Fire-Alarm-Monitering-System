@@ -35,7 +35,9 @@ class CameraInterface(object):
             self.camera.capture(img_file.as_posix(), bayer=True)
             print(f"Writing Image {img_file.as_posix()}")
 
-    def capture_image(self):
+    def capture_image(self, filename: str = ''):
+        if filename:
+            img_file = filename
         img_file = self.imgDir / f'image_{time.time()}.png'
         self.camera.annotate_text = datetime.datetime.now().strftime("%H:%M:%S / %d-%m-%Y")
         self.camera.capture(img_file.as_posix(), bayer=True)

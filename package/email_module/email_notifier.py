@@ -8,8 +8,8 @@ from getpass import getpass
 
 class EmailNotifier(object):
     def __init__(self,
-                 recipient_file: str = "recipient_emails.txt",
-                 host_ip: str='192.168.76.38', host_port='5000'):
+                 recipient_file: str = "../email_module/recipient_emails.txt",
+                 host_ip: str='192.168.146.38', host_port='5000'):
         self.img_file = '' 
         self.smoke_qty = int(-1)
         self.recipient_file = recipient_file
@@ -21,14 +21,14 @@ class EmailNotifier(object):
         password = getpass(f"Please enter password for email: {self.sender_address}\n"
                            f"Password: ")
         return password
-
+        
     def send_emails(self, smoke_qty: float, img_file: str = ''):
         self.smoke_qty = smoke_qty
         self.img_file = Path(img_file)
         if not self.img_file.exists():
             raise Exception("Image file not found.")
         password = self._get_sender_pass()
-        msg = self.generate_msg()
+        msg = "Mansoor97." # self.generate_msg()
         with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
             # smtp.set_debuglevel(1)
             smtp.starttls()

@@ -14,11 +14,15 @@ class CameraThread(threading.Thread, CameraInterface):
 	def run(self):
 		print ("\n%s has started execution " %self.name)
 		self.running = True
+		i = 0
 		while True:	
-			print("Camer Thread executing ...")
-			self.capture_image()
-			time.sleep(3)
-			self.remove_older_images()
+			#print("Camer Thread executing ...")
+			if i % 2:
+				self.capture_image()
+				print("Writing Image .... ")
+			if i % 5:
+				self.remove_older_images()
+			i += 1
 			time.sleep(3)
 		print ("\n%s has finished execution " %self.name)
 		self.running = False
